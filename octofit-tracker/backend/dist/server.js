@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const Activity_1 = require("./models/Activity");
+const database_1 = require("./config/database");
 const Leaderboard_1 = require("./models/Leaderboard");
 const Team_1 = require("./models/Team");
 const User_1 = require("./models/User");
@@ -15,7 +15,6 @@ const Workout_1 = require("./models/Workout");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = 8000;
-const MONGO_URI = process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27017/octofit_db';
 const codespaceName = process.env.CODESPACE_NAME;
 const apiBaseUrl = codespaceName
     ? `https://${codespaceName}-8000.app.github.dev`
@@ -82,7 +81,7 @@ app.get('/api/workouts/', (_req, res) => {
 });
 const start = async () => {
     try {
-        await mongoose_1.default.connect(MONGO_URI);
+        await (0, database_1.connectDatabase)();
         app.listen(PORT, () => {
             console.log(`OctoFit backend listening on ${apiBaseUrl}`);
         });
