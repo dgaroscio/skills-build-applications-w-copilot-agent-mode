@@ -11,3 +11,4 @@ export const connectDatabase = async (): Promise<void> => {
 
   await mongoose.connect(MONGO_URI);
 };
+ 
